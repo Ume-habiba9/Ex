@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 func countWords(totalWords string) int {
@@ -45,6 +46,7 @@ func countPunc(p int32) bool {
 }
 
 func main() {
+	startTime := time.Now()
 	fileContent, err := os.ReadFile("text.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -54,7 +56,6 @@ func main() {
 	fmt.Println("Number of words:", countWords(file))
 	// No of lines
 	fmt.Println("Number of Lines:", countLines(file))
-
 	// No of characters
 	fmt.Println("Number of characters:", len(file))
 	// No of Vowels
@@ -73,4 +74,6 @@ func main() {
 		}
 	}
 	fmt.Println("No of puntuations:", countpunc)
+	ExecutionTime := time.Since(startTime)
+	fmt.Println("Execution Time of Whole Program is :", ExecutionTime)
 }
