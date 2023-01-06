@@ -1,49 +1,19 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
-func countWords() {
-	file, err := os.Open("text.txt")
-	if err != nil {
-		fmt.Println(err)
-	}
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanWords)
-	count := 0
-	for scanner.Scan() {
-		count++
-	}
-	fmt.Println("No of Words:", count)
+func countWords(totalWords string) int {
+	words := strings.Fields(totalWords)
+	return len(words)
 }
-func countLines() {
-	file, err := os.Open("text.txt")
-	if err != nil {
-		fmt.Println(err)
-	}
-	scanlines := bufio.NewScanner(file)
-	scanlines.Split(bufio.ScanLines)
-	var lines int
-	for scanlines.Scan() {
-		lines++
-	}
-	fmt.Println("No of lines:", lines)
-}
-func countChar() {
-	file, err := os.Open("text.txt")
-	if err != nil {
-		fmt.Println(err)
-	}
-	scanchar := bufio.NewScanner(file)
-	scanchar.Split(bufio.ScanRunes)
-	char := 0
-	for scanchar.Scan() {
-		char++
-	}
-	fmt.Println("No of characters:", char)
+
+func countLines(totalLines string) int {
+	lines := strings.Split(totalLines, "\n")
+	return len(lines)
 }
 func countVowels(char int32) bool {
 
@@ -74,10 +44,6 @@ func countPunc(p int32) bool {
 
 }
 
-// type Reader interface {
-// 	readfile()
-// }
-
 func main() {
 	fileContent, err := os.ReadFile("text.txt")
 	if err != nil {
@@ -85,11 +51,12 @@ func main() {
 	}
 	file := string(fileContent)
 	// No of Words
-	countWords()
+	fmt.Println("Number of words:", countWords(file))
 	// No of lines
-	countLines()
+	fmt.Println("Number of Lines:", countLines(file))
+
 	// No of characters
-	countChar()
+	fmt.Println("Number of characters:", len(file))
 	// No of Vowels
 	countvowels := 0
 	for _, char := range file {
