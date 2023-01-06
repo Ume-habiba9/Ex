@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func countwords() {
+func countWords() {
 	file, err := os.Open("text.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -19,7 +19,7 @@ func countwords() {
 	}
 	fmt.Println("No of Words:", count)
 }
-func countlines() {
+func countLines() {
 	file, err := os.Open("text.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -32,7 +32,7 @@ func countlines() {
 	}
 	fmt.Println("No of lines:", lines)
 }
-func countchar() {
+func countChar() {
 	file, err := os.Open("text.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -45,7 +45,7 @@ func countchar() {
 	}
 	fmt.Println("No of characters:", char)
 }
-func vowels(char int32) bool {
+func countVowels(char int32) bool {
 
 	if (char == 'a') || (char == 'e') || (char == 'i') ||
 		(char == 'o') || (char == 'u') {
@@ -59,7 +59,7 @@ func vowels(char int32) bool {
 	}
 
 }
-func punc(p int32) bool {
+func countPunc(p int32) bool {
 
 	if (p == '!') || (p == '.') || (p == '-') ||
 		(p == ',') || (p == ';') || (p == ':') {
@@ -74,34 +74,34 @@ func punc(p int32) bool {
 
 }
 
-// type allvowels struct {
-// 	v1, v2, v3, v4, v5 int32
+// type Reader interface {
+// 	readfile()
 // }
 
 func main() {
-	Content, _ := os.ReadFile("text.txt")
-	s := string(Content)
-	// fmt.Println(s)
+	fileContent, err := os.ReadFile("text.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	file := string(fileContent)
 	// No of Words
-	countwords()
+	countWords()
 	// No of lines
-	countlines()
+	countLines()
 	// No of characters
-	countchar()
+	countChar()
 	// No of Vowels
-	// v := allvowels{'a', 'e', 'i', 'o', 'u'}
 	countvowels := 0
-	for _, char := range s {
-		if vowels(char) {
+	for _, char := range file {
+		if countVowels(char) {
 			countvowels++
 		}
 	}
-
 	fmt.Println("No of vowels :", countvowels)
 	// No of Puntuation
 	countpunc := 0
-	for _, p := range s {
-		if punc(p) {
+	for _, punctuation := range file {
+		if countPunc(punctuation) {
 			countpunc++
 		}
 	}
