@@ -3,44 +3,39 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 	"sync"
 	"time"
 )
 
-func countWords(totalWords string, wg *sync.WaitGroup) int {
-	words := strings.Fields(totalWords)
-	w, _ := fmt.Println("Number of words:", len(words))
-	wg.Done()
-	return w
-}
-
-func countLines(totalLines string, wg *sync.WaitGroup) int {
-	lines := strings.Split(totalLines, "\n")
-	l, _ := fmt.Println("Number of Lines:", len(lines))
-	wg.Done()
-	return l
-}
-func countVowelsandPunc(file string, wg *sync.WaitGroup) (int, int) {
+func count(file string, wg *sync.WaitGroup) (int, int, int, int) {
+	countWords := 0
 	countVowel := 0
 	countPunc := 0
+	countLines := 0
 	for _, char := range file {
 		if (char == 'a') || (char == 'e') || (char == 'i') ||
 			(char == 'o') || (char == 'u') {
 			countVowel++
 
 		}
-	}
-	v, _ := fmt.Println("No of Vowels:", countVowel)
-	for _, p := range file {
-		if (p == '!') || (p == '.') || (p == '-') ||
-			(p == ',') || (p == ';') || (p == ':') {
+		if (char == '!') || (char == '.') || (char == '-') ||
+			(char == ',') || (char == ';') || (char == ':') {
 			countPunc++
 		}
+		if char == ' ' {
+			countWords++
+		}
+		if char == '\n' {
+			countLines++
+		}
 	}
+	v, _ := fmt.Println("No of Vowels:", countVowel)
 	p, _ := fmt.Println("No of Puntuation:", countPunc)
-	wg.Done()
-	return v, p
+	w, _ := fmt.Println("No of Words:", countWords)
+	l, _ := fmt.Println("No of LInes:", countLines)
+	defer wg.Done()
+
+	return v, p, w, l
 }
 
 func main() {
@@ -51,23 +46,11 @@ func main() {
 		fmt.Println(err)
 	}
 	file := string(fileContent)
-	// No of Words
 	wg.Add(1)
-	go countWords(file, &wg)
-	wg.Wait()
-	// No of lines
-	wg.Add(1)
-	go countLines(file, &wg)
-	wg.Wait()
-	// No of characters
+	count(file, &wg)
 	fmt.Println("Number of characters:", len(file))
-	// No of Vowels
-	wg.Add(1)
-	go countVowelsandPunc(file, &wg)
 	wg.Wait()
-	// No of Puntuations
-	go countVowelsandPunc(file, &wg)
 	ExecutionTime := time.Since(startTime)
 	fmt.Println("Execution Time of Whole Program is :", ExecutionTime)
-	wg.Wait()
+
 }
